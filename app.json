@@ -1,0 +1,40 @@
+{
+  "expo": {
+    "name": "CosmicCouncil",
+    "slug": "CosmicCouncil",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/logo_icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/logo_icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.davidju.CosmicCouncil"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/logo_icon.png",
+        "backgroundColor": "#FFFFFF"
+      },
+      "package": "com.davidju.CosmicCouncil"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "7c4675c9-3c29-4f3d-a6c2-51297b9a3918"
+      }
+    }
+  }
+}
