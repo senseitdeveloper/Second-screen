@@ -9,6 +9,7 @@ export function socketHandler(setConnected, data){
       let d = new Date();
       let message = {
         kpi: 'latency1',
+        which: 'stamp1',
         time: d.getTime()
       };
       socket.send(JSON.stringify(
@@ -45,14 +46,31 @@ export function send(message, sessionId){
   }
 }
 
-export function onMessage(setTrigger){
+export function onMessage(setTrigger, sessionId){
   if(socket){
     socket.onmessage = (event) => {
       const data = JSON.parse(event.data);
-
+      
       if(data.sender == 2){
         console.log(data.message)
-        setTrigger(data.message)
+        if(data.message.includes('trigger'))
+            setTrigger(data.message)
+        else{
+          //---------recieved a middle stamp----------
+          let d = new Date();
+          let messageToSend = {
+            kpi: data.message,
+            which: 'stamp2',
+            time: d.getTime()
+          };
+          socket.send(JSON.stringify(
+            {
+              event: 'message',
+              sessionId: sessionId,
+              message: JSON.stringify(messageToSend)
+            }
+          ));
+        }
       }
         
 

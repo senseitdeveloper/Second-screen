@@ -99,7 +99,7 @@ export default function App() {
     'Nightingale': assets.nightingale,
   });
 
-  onMessage(setTrigger);
+  onMessage(setTrigger, sessionId);
 
   const onScanned = (data) => {
     socketHandler(setConnected, data)
@@ -117,6 +117,7 @@ export default function App() {
         let d = new Date();
         let message = {
           kpi: 'latency2',
+          which: 'stamp1',
           time: d.getTime()
         };
         send(JSON.stringify(message), sessionId);
@@ -201,6 +202,7 @@ export default function App() {
           let d = new Date();
           let message = {
             kpi: 'latency3',
+            which: 'stamp1',
             time: d.getTime()
           };
           send(JSON.stringify(message), sessionId);
@@ -213,6 +215,7 @@ export default function App() {
           let d = new Date();
           let message = {
             kpi: 'latency4',
+            which: 'stamp1',
             time: d.getTime()
           };
           send(JSON.stringify(message), sessionId);
@@ -230,6 +233,7 @@ export default function App() {
           let d = new Date();
           let message = {
             kpi: 'latency5',
+            which: 'stamp1',
             time: d.getTime()
           };
           send(JSON.stringify(message), sessionId);
@@ -241,6 +245,7 @@ export default function App() {
             let d = new Date();
             let message = {
               kpi: 'failed',
+              which: 'stamp1',
               time: d.getTime()
             };
             send(JSON.stringify(message), sessionId);
