@@ -80,8 +80,9 @@ export default function App() {
   const [count, setCount] = useState(0);
   const [factSheetFinished, setFactSheetFinished] = useState(false);
 
-  const [quizFinished, setQuizFinished] = useState(false);
+  const [quizFinished, setQuizFinished] = useState(true);
   const [quizPassed, setQuizPassed] = useState(false);
+  const [onlyfail, setOnlyFail] = useState(false);
   const [sessionId, setSessionId] = useState('');
 
   let [isLoaded, setIsLoaded] = useState(false);
@@ -99,7 +100,7 @@ export default function App() {
     'Nightingale': assets.nightingale,
   });
 
-  onMessage(setTrigger, sessionId);
+  onMessage(setTrigger, sessionId, setConnected, setOnlyFail);
 
   const onScanned = (data) => {
     socketHandler(setConnected, data)
@@ -157,7 +158,8 @@ export default function App() {
 
   useEffect(() => {
     setQuizFinished(false);
-    setQuizPassed(false);
+    setQuizPassed(true);
+    setOnlyFail(false);
     setTrigger('');
     setFactSheetFinished(false);
     setIsLoaded(false);
@@ -172,6 +174,18 @@ export default function App() {
 
     loadResources();
   },[]);
+
+  useEffect(() => {
+   if(!quizPassed){
+    let d = new Date();
+    let message = {
+      kpi: 'failed',
+      which: 'stamp1',
+      time: d.getTime()
+    };
+    send(JSON.stringify(message), sessionId);
+  }
+  },[quizPassed]);
 
   if(!isLoaded || !fontsLoaded)
     return <LoadingScreen></LoadingScreen>;
@@ -240,20 +254,12 @@ export default function App() {
           setTrigger4sent(true);
         }
         if(quizFinished){
-          if(!quizPassed){
-            setQuizPassed(true);
-            let d = new Date();
-            let message = {
-              kpi: 'failed',
-              which: 'stamp1',
-              time: d.getTime()
-            };
-            send(JSON.stringify(message), sessionId);
-            // send('failed', sessionId);
+          if(quizPassed && isConnected){
+            closeConnection(setConnected);
+            console.log('disconnected');
           }
-          closeConnection(setConnected);
           return <WelcomeScreen></WelcomeScreen>
-        }else return <CountDownQuiz setQuizFinished={setQuizFinished} setQuizPassed={setQuizPassed}></CountDownQuiz>
+        }else return <CountDownQuiz setQuizFinished={setQuizFinished} setQuizPassed={setQuizPassed} onlyFail={onlyfail}></CountDownQuiz>
         break;
       default:
         return <WelcomeScreen></WelcomeScreen>

@@ -46,7 +46,7 @@ export function send(message, sessionId){
   }
 }
 
-export function onMessage(setTrigger, sessionId){
+export function onMessage(setTrigger, sessionId, setConnected, setOnlyFail){
   if(socket){
     socket.onmessage = (event) => {
       const data = JSON.parse(event.data);
@@ -70,6 +70,15 @@ export function onMessage(setTrigger, sessionId){
               message: JSON.stringify(messageToSend)
             }
           ));
+
+          //only fail
+          if(data.message == 'onlyfail')
+            setOnlyFail(true);
+
+          if(data.message == 'latency6'){
+            closeConnection(setConnected);
+            console.log('disconnected');
+          }
         }
       }
         

@@ -50,7 +50,7 @@ const quiz = [
     }
 ]
 
-function CountDownQuiz({ setQuizFinished, setQuizPassed }) {
+function CountDownQuiz({ setQuizFinished, setQuizPassed, onlyFail }) {
     const video = useRef(null);
     const circleRef = useRef(null);
     const lineRef = useRef(null);
@@ -192,7 +192,7 @@ function CountDownQuiz({ setQuizFinished, setQuizPassed }) {
         // console.log('count',questionCount)
         if(circleTimerFinished){
             setQuizFinished(true);
-            if(correctAnswersCount == 5)
+            if(correctAnswersCount == 5 && !onlyFail)
                 setQuizPassed(true);
             else setQuizPassed(false);
         }
